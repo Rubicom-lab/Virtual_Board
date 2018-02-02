@@ -1,12 +1,12 @@
 CC = gcc
 CFLAGS = -W -Wall
-TARGET = main
-OBJECTS = main.o vm.o MultiDataTransfer.o SingleDataTransfer.o bitsHandler.o DataProcessing.o parse.o Branch.o
+TARGET = Main
+OBJECTS = Main.o VirtualMachine.o MultiDataTransfer.o SingleDataTransfer.o BitsHandler.o DataProcessing.o Parse.o Branch.o
 
 all : $(TARGET)
 
 $(TARGET) : $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^
 clean :
-	rm *.o main
+	rm -rf *.o Main
 

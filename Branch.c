@@ -1,29 +1,30 @@
-#include "ARM_engine.h"
-#include "vm.h"
-#include <stdlib.h>
+#include "VirtualMachine.h"
+
+#include "BitsHandler.h"
+
 #include <stdio.h>
 
-void B(VCPU* v){
-        long long temp;
-        Branch* instr;
-        instr=(Branch*)((v->instr_addr));
-        printf("branch 명령어\n");
+void branch(struct VCPU* v){
+	long long        temp;
+	struct Branch*   instr;
+	instr = (struct Branch*)((v->instr_addr));
+	printf("branch 명령어\n");
 	printf("instruction is %llx\n",*instr);
 
 	if(!conditionPassed(v,instr->cond)){
 		printf("couldn't passsed condition!!! \n");
 		v->regs[15]-=4;
-		if(v->flag==1) insert_brkPoint(v,v->regs[15]);
+		if(v->flag==1) insertBrkPoint(v,v->regs[15]);
 		return;
 	}
 
 	printf("passed condition!!! \n");
-        if (instr->L == 1) v->regs[14] = v->regs[15]-4;
-        temp = instr->offset <<8;
-        v->regs[15] += (temp >>6);
-	
-	if(v->flag==1) insert_brkPoint(v,v->regs[15]);
-return;
+	if (instr->L == 1) v->regs[14] = v->regs[15]-4;
+	temp = instr->offset <<8;
+	v->regs[15] += (temp >>6);
+
+	if(v->flag==1) insertBrkPoint(v,v->regs[15]);
+	return;
 }
 
 /*
